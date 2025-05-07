@@ -1,0 +1,86 @@
+
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Noesis Sign In</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      :root {
+        --noesis-blue: rgb(65, 144, 201);
+      }
+
+      html, body {
+        height: 100%;
+      }
+
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #f5f5f5;
+      }
+
+      .form-signin {
+        width: 100%;
+        max-width: 360px;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+      }
+
+      .btn-primary {
+        background-color: var(--noesis-blue);
+        border-color: var(--noesis-blue);
+      }
+
+      .btn-primary:hover {
+        background-color: #367bb2;
+        border-color: #367bb2;
+      }
+
+      .form-signin img {
+        width: 120px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body class="text-center">
+
+    <main class="form-signin">
+      <form method="post">
+        {% csrf_token %}
+        {% load static %}
+        <img src="{% static 'Images/logo-noesis_cookies.png' %}" alt="Noesis Logo">
+        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+        {% if form.errors %}
+          <div class="alert alert-danger" role="alert">
+            Utilizador ou password inválidos.
+          </div>
+        {% endif %}
+
+        <div class="form-floating mb-3">
+          {{ form.username.label_tag }}
+          {{ form.username }}
+        </div>
+
+        <div class="form-floating mb-3">
+          {{ form.password.label_tag }}
+          {{ form.password }}
+        </div>
+
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+        <p class="mt-5 mb-3 text-muted">© Noesis 2025</p>
+      </form>
+    </main>
+
+  </body>
+</html>

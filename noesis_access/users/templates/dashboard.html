@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+<h1>Bem-vindo, {{ user.username }}</h1>
+
+{% if grupo == 'admin' %}
+  <p>Secção administrativa</p>
+{% elif grupo == 'developers' %}
+  <p>Secção de desenvolvimento</p>
+{% elif grupo == 'RH' %}
+  <p>Gestão de recursos humanos</p>
+{% elif grupo == 'comerciais' %}
+  <p>Área de vendas</p>
+{% elif grupo == 'marketing' %}
+  <p>Campanhas e redes sociais</p>
+{% else %}
+  <p>Sem grupo atribuído.</p>
+{% endif %}
+</body>
+</html>
