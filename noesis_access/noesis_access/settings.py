@@ -52,7 +52,7 @@ MIDDLEWARE = [
 ]
 
 LOGIN_URL = 'login'  # Esse é o nome da rota definida em 'users/urls.py'
-LOGIN_REDIRECT_URL = '/users/dashboard/'  # Redireciona para o dashboard após login
+LOGIN_REDIRECT_URL = '/users/homepage/'  # Redireciona para o dashboard após login
 
 ROOT_URLCONF = "noesis_access.urls"
 
@@ -119,11 +119,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-import os
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
+
 STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
