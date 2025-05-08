@@ -1,3 +1,4 @@
+from django.contrib.auth.views import LogoutView
 from django.urls import path
 from django.views.generic import TemplateView
 
@@ -14,4 +15,7 @@ urlpatterns = [
     path('ativos/suppliers/', TemplateView.as_view(template_name='ativos/suppliers.html'), name='suppliers'),
     path('ativos/lowCode/', TemplateView.as_view(template_name='ativos/lowCode.html'), name='low_code'),
     path('ativos/manuals/', TemplateView.as_view(template_name='ativos/manuals.html'), name='manuals'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+    
+
 ]

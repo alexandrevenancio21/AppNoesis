@@ -53,6 +53,7 @@ MIDDLEWARE = [
 
 LOGIN_URL = 'login'  # Esse é o nome da rota definida em 'users/urls.py'
 LOGIN_REDIRECT_URL = '/users/homepage/'  # Redireciona para o dashboard após login
+LOGOUT_REDIRECT_URL = '/users/login/'  # Redireciona para a página de login após logout
 
 ROOT_URLCONF = "noesis_access.urls"
 

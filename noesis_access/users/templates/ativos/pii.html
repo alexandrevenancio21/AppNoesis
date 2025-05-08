@@ -87,51 +87,87 @@
       </a>
       <hr>
       <ul class="nav nav-pills flex-column mb-auto">
-        <li class="nav-item">
-    <a href="{% url 'homepage' %}" class="nav-link active" aria-current="page">
-        <i class="bi bi-house-door-fill me-2"></i>Home
-    </a>
-</li>
   <li class="nav-item">
-    <a href="{% url 'client_list' %}" class="nav-link">
-      <i class="bi bi-person-lines-fill me-2"></i>Clients List
+    <a href="{% url 'homepage' %}" class="nav-link " aria-current="page">
+      <i class="bi bi-house-door-fill me-2"></i>Home
     </a>
   </li>
-  <li>
-    <a href="{% url 'pii' %}" class="nav-link">
-      <i class="bi bi-shield-lock me-2"></i>PII
-    </a>
-  </li>
-  <li>
-    <a href="{% url 'testing_on' %}" class="nav-link">
-      <i class="bi bi-toggle2-on me-2"></i>TestingOn
-    </a>
-  </li>
-  <li>
-    <a href="{% url 'customers' %}" class="nav-link">
-      <i class="bi bi-person-check-fill me-2"></i>Customers
-    </a>
-  </li>
-  <li>
-    <a href="{% url 'vqm' %}" class="nav-link">
-      <i class="bi bi-hourglass-split me-2"></i>Virtual Queue Management
-    </a>
-  </li>
-  <li>
-    <a href="{% url 'suppliers' %}" class="nav-link">
-      <i class="bi bi-person-circle me-2"></i>Suppliers List
-    </a>
-  </li>
-  <li>
-    <a href="{% url 'low_code' %}" class="nav-link">
-      <i class="bi bi-code-slash me-2"></i>Low Code Solutions
-    </a>
-  </li>
-  <li>
-    <a href="{% url 'manuals' %}" class="nav-link">
-      <i class="bi bi-file-earmark-text me-2"></i>Manuals and Solution Documentation
-    </a>
-  </li>
+
+  {% with user.groups.all.0.name as role %}
+
+    {# Clientes - comerciais, financeiro, admin #}
+    {% if role == "comerciais" or role == "financeiro" or  request.user.is_superuser %}
+    <li>
+      <a href="{% url 'client_list' %}" class="nav-link">
+        <i class="bi bi-shield-lock me-2"></i>Clients List
+      </a>
+    </li>
+    {% endif %}
+
+    {# PII - apenas admin #}
+    {% if  request.user.is_superuser or role == "RH" %}
+    <li>
+      <a href="{% url 'pii' %}" class="nav-link active">
+        <i class="bi bi-shield-lock me-2"></i>PII
+      </a>
+    </li>
+    {% endif %}
+
+    {# TestingOn - developers, admin #}
+    {% if role == "developers" or  request.user.is_superuser %}
+    <li>
+      <a href="{% url 'testing_on' %}" class="nav-link">
+        <i class="bi bi-toggle2-on me-2"></i>TestingOn
+      </a>
+    </li>
+    {% endif %}
+
+
+
+    {# VQM - developers, admin #}
+    {% if role == "developers" or  request.user.is_superuser %}
+    <li>
+      <a href="{% url 'vqm' %}" class="nav-link">
+        <i class="bi bi-hourglass-split me-2"></i>Virtual Queue Management
+      </a>
+    </li>
+    {% endif %}
+
+    {# Suppliers - financeiro, admin #}
+    {% if role == "financeiro" or  request.user.is_superuser %}
+    <li>
+      <a href="{% url 'suppliers' %}" class="nav-link">
+        <i class="bi bi-person-circle me-2"></i>Suppliers List
+      </a>
+    </li>
+    {% endif %}
+
+    {# Low Code - developers, admin #}
+    {% if role == "developers" or  request.user.is_superuser %}
+    <li>
+      <a href="{% url 'low_code' %}" class="nav-link">
+        <i class="bi bi-code-slash me-2"></i>Low Code Solutions
+      </a>
+    </li>
+    {% endif %}
+
+    {# Manuals - developers, admin #}
+    {% if role == "developers" or  request.user.is_superuser %}
+    <li>
+      <a href="{% url 'manuals' %}" class="nav-link">
+        <i class="bi bi-file-earmark-text me-2"></i>Manuals and Solution Documentation
+      </a>
+    </li>
+    {% endif %}
+
+  {% endwith %}
+        {% if request.user.is_superuser %}
+      <li>
+        <a href="/admin/" class="nav-link" target="_blank">
+          <i class="bi bi-gear-fill me-2"></i>Administration Panel
+        </a>
+      </li>
+      {% endif %}
 </ul>
       <hr>
       <div class="dropdown">
@@ -144,7 +180,10 @@
           <li><a class="dropdown-item" href="#">Settings</a></li>
           <li><a class="dropdown-item" href="#">Profile</a></li>
           <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="#">Sign out</a></li>
+          <li><form method="post" action="{% url 'logout' %}" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" class="dropdown-item">Logout</button>
+    </form></li>
         </ul>
       </div>
     </div>
