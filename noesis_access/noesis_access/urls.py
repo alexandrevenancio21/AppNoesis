@@ -14,11 +14,17 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-
+from django.shortcuts import render, redirect
 from django.contrib import admin
 from django.urls import path, include
 
+from django.conf.urls import handler404 
+from users.views import custom_page_not_found
+
 urlpatterns = [
+    path('', lambda request: redirect('login')),
     path('admin/', admin.site.urls),
-    path('users/', include('users.urls')),  # Corrigir a inclusão da app users
+    path('users/', include('users.urls')),
 ]
+
+handler404 = custom_page_not_found
