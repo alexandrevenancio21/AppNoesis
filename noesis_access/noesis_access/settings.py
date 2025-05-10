@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'users',
 ]
 
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -49,11 +50,14 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django_ratelimit.middleware.RatelimitMiddleware',
 ]
 
 LOGIN_URL = '/users/login'  # Esse é o nome da rota definida em 'users/urls.py'
 LOGIN_REDIRECT_URL = '/users/homepage/'  # Redireciona para o dashboard após login
 LOGOUT_REDIRECT_URL = '/users/login/'  # Redireciona para a página de login após logout
+
+RATELIMIT_VIEW = 'users.views.too_many_requests'
 
 ROOT_URLCONF = "noesis_access.urls"
 

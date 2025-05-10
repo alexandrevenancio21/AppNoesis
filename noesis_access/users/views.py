@@ -6,13 +6,15 @@ from django.contrib.auth import login
 from .forms import UserRegisterForm
 from django.views.generic.base import TemplateView
 from django.contrib.auth.decorators import user_passes_test
+from django_ratelimit.decorators import ratelimit
 
 class CustomLoginView(LoginView):
     template_name = 'login.html'
 
     def get_success_url(self):
-        return '/users/homepage' 
+        return '/users/homepage'
 
+@ratelimit(key='ip', rate='3/m', block=True)
 @login_required
 def homepage(request):
     user = request.user
@@ -44,33 +46,43 @@ def unauthorized(request):
 def custom_page_not_found(request, exception):
     return render(request, 'error404.html', status=404)
 
+def too_many_requests(request, exception):
+    return render(request, 'errorRequests.html', status=429)
+
     
 
 #Views para Segurança
+@ratelimit(key='ip', rate='3/m', block=True)
 @group_required('comerciais', 'financeiro', 'admin')
 def clientList(request):
     return render(request, 'ativos/clientList.html')
 
+@ratelimit(key='ip', rate='3/m', block=True)
 @group_required('developers', 'admin')
 def lowCode(request):
     return render(request, 'ativos/lowCode.html')
 
+@ratelimit(key='ip', rate='3/m', block=True)
 @group_required('developers', 'admin')
 def manuals(request):
     return render(request, 'ativos/manuals.html')
 
+@ratelimit(key='ip', rate='3/m', block=True)
 @group_required('RH', 'admin')
 def pii(request):
     return render(request, 'ativos/pii.html')
 
+@ratelimit(key='ip', rate='3/m', block=True)
 @group_required('financeiro', 'admin')
 def suppliers(request):
     return render(request, 'ativos/suppliers.html')
 
+@ratelimit(key='ip', rate='3/m', block=True)
 @group_required('developers', 'admin')
 def testingOn(request):
     return render(request, 'ativos/testingOn.html')
 
+@ratelimit(key='ip', rate='3/m', block=True)
 @group_required('developers', 'admin')
 def vqm(request):
     return render(request, 'ativos/vqm.html')
